@@ -13,7 +13,25 @@
 </head>
 
 <body class="antialiased text-preto6 bg-gray-100">
-  <div class="flex flex-col justify-center items-center h-screen bg-no-repeat bg-contain"></div>
+  <div class="flex flex-col items-center h-screen bg-no-repeat bg-contain" x-data="{indicados2022, escolha:''}">
+    <h1 class="text-5xl font-extrabold text-livros">Bolão OscArvore</h1>
+    <h2 class="text-2xl">Qual sua aposta para o Oscar 2022?</h2>
+
+    <template x-for="(indicados, indice) in indicados2022" :key="indice">
+      <section class="rounded-xl shadow bg-gray-50 m-3">
+        <h3 class="text-xl font-bold m-2.5 p-1 border-b-8 border-b-livros uppercase" x-text="indicados.categoria"></h3>
+        <div class="container-respostas p-4 grid grid-cols-5 gap-2">
+          <template x-for="resposta in indicados.respostas">
+            <img width="150px" :src="`./imgs/poster-filmes/${resposta.imagem}.jpg`" alt="poster do filme">
+            <label class="opcao-resposta" :class="{ 'active': escolha === resposta.valor }">
+              <input type="radio" :value="resposta.valor" x-model="escolha">
+              <span x-text="resposta.texto"></span>
+            </label>
+          </template>
+        </div>
+      </section>
+    </template>
+  </div>
 
   <script>
     const indicados2022 = [
@@ -23,8 +41,8 @@
           { valor: 'a', texto: 'Kenneth Branagh, por Belfast', imagem: 'belfast' },
           { valor: 'b', texto: 'Ryûsuke Hamaguchi, por Drive My Car', imagem: 'drive-my-car' },
           { valor: 'c', texto: 'Paul Thomas Anderson, por Licorice Pizza', imagem: 'licorice-pizza' },
-          { valor: 'd', texto: 'Jane Campion, por Ataque dos Cães', image: 'ataque-dos-caes' },
-          { valor: 'e', texto: 'Steven Spielberg, por Amor, Sublime Amor', image: 'amor-sublime-amor' },
+          { valor: 'd', texto: 'Jane Campion, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
+          { valor: 'e', texto: 'Steven Spielberg, por Amor, Sublime Amor', imagem: 'amor-sublime-amor' },
         ],
       },
       {
@@ -33,8 +51,8 @@
           { valor: 'a', texto: 'Javier Bardem, por Apresentando os Ricardos', imagem: 'apresentando-os-ricardos' },
           { valor: 'b', texto: 'Benedict Cumberbatch, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
           { valor: 'c', texto: 'Andrew Garfield, por Tick, Tick... Boom!', imagem: 'tick-tick-boom' },
-          { valor: 'd', texto: 'Will Smith, por King Richard: Criando Campeãs', image: 'king-richard-criando-campeas' },
-          { valor: 'e', texto: 'Denzel Washington, por A Tragédia de Macbeth', image: 'a-tragedia-de-macbeth' },
+          { valor: 'd', texto: 'Will Smith, por King Richard: Criando Campeãs', imagem: 'king-richard-criando-campeas' },
+          { valor: 'e', texto: 'Denzel Washington, por A Tragédia de Macbeth', imagem: 'a-tragedia-de-macbeth' },
         ],
       },
       {
@@ -43,8 +61,8 @@
           { valor: 'a', texto: 'Nicole Kidman, por Apresentando os Ricardos', imagem: 'apresentando-os-ricardos' },
           { valor: 'b', texto: 'Jessica Chastain, por The Eyes of Tammy Faye', imagem: 'the-eyes-of-tammy-faye' },
           { valor: 'c', texto: 'Olivia Colman, por A Filha Perdida', imagem: 'a-filha-perdida' },
-          { valor: 'd', texto: 'Penélope Cruz, por Mães Paralelas', image: 'maes-paralelas' },
-          { valor: 'e', texto: 'Kristen Stewart, por Spencer', image: 'spencer' },
+          { valor: 'd', texto: 'Penélope Cruz, por Mães Paralelas', imagem: 'maes-paralelas' },
+          { valor: 'e', texto: 'Kristen Stewart, por Spencer', imagem: 'spencer' },
         ],
       },
       {
@@ -54,7 +72,7 @@
           { valor: 'b', texto: 'J.K. Simmons, por Apresentando os Ricardos', imagem: 'apresentando-os-ricardos' },
           { valor: 'c', texto: 'Troy Kotsur, por No Ritmo do Coração', imagem: 'no-ritmo-do-coracao' },
           { valor: 'a', texto: 'Kodi Smit-McPhee, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
-          { valor: 'e', texto: 'Ciarán Hinds, por Belfast', image: 'belfast' },
+          { valor: 'e', texto: 'Ciarán Hinds, por Belfast', imagem: 'belfast' },
         ],
       },
       {
@@ -63,8 +81,8 @@
           { valor: 'a', texto: 'Ariana DeBose, em Amor, Sublime Amor', imagem: 'amor-sublime-amor' },
           { valor: 'b', texto: 'Judi Dench, em Belfast', imagem: 'belfast' },
           { valor: 'c', texto: 'Jessie Buckley, em A Filha Perdida', imagem: 'a-filha-perdida' },
-          { valor: 'd', texto: 'Kirsten Dunst, em Ataque dos Cães', image: 'ataque-dos-caes' },
-          { valor: 'e', texto: 'Aunjanue Ellis, por King Richard: Criando Campeãs', image: 'king-richard-criando-campeas' },
+          { valor: 'd', texto: 'Kirsten Dunst, em Ataque dos Cães', imagem: 'ataque-dos-caes' },
+          { valor: 'e', texto: 'Aunjanue Ellis, por King Richard: Criando Campeãs', imagem: 'king-richard-criando-campeas' },
         ],
       },
       {
@@ -73,8 +91,8 @@
           { valor: 'a', texto: 'Kenneth Branagh, por Belfast', imagem: 'belfast' },
           { valor: 'b', texto: 'Adam McKay, por Não Olhe Para Cima', imagem: 'nao-olhe-para-cima' },
           { valor: 'c', texto: 'Paul Thomas Anderson, por Licorice Pizza', imagem: 'licorice-pizza' },
-          { valor: 'd', texto: 'Zach Baylin, por King Richard: Criando Campeãs', image: 'king-richard-criando-campeas' },
-          { valor: 'e', texto: 'Eskil Vogt & Joachim Trier, por The Worst Person in the World', image: 'the-worst-person-in-the-world' },
+          { valor: 'd', texto: 'Zach Baylin, por King Richard: Criando Campeãs', imagem: 'king-richard-criando-campeas' },
+          { valor: 'e', texto: 'Eskil Vogt & Joachim Trier, por The Worst Person in the World', imagem: 'the-worst-person-in-the-world' },
         ],
       },
       {
@@ -83,8 +101,8 @@
           { valor: 'a', texto: 'Maggie Gyllenhaal, por A Filha Perdida', imagem: 'a-filha-perdida' },
           { valor: 'b', texto: 'Jane Campion, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
           { valor: 'c', texto: 'Jon Spaiths, Denis Villeneuve & Eric Roth, por Duna', imagem: 'duna' },
-          { valor: 'd', texto: 'Ryûsuke Hamaguchi & Takamasa Oe, por Drive My Car', image: 'drive-my-car' },
-          { valor: 'e', texto: 'Siân Heder, por No Ritmo do Coração', image: 'no-ritmo-do-coracao' },
+          { valor: 'd', texto: 'Ryûsuke Hamaguchi & Takamasa Oe, por Drive My Car', imagem: 'drive-my-car' },
+          { valor: 'e', texto: 'Siân Heder, por No Ritmo do Coração', imagem: 'no-ritmo-do-coracao' },
         ],
       },
       {
@@ -93,8 +111,8 @@
           { valor: 'a', texto: 'Dan Lautsen, por O Beco do Pesadelo', imagem: 'o-beco-do-pesadelo' },
           { valor: 'b', texto: 'Ari Wegner, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
           { valor: 'c', texto: 'Greig Fraser, por Duna', imagem: 'duna' },
-          { valor: 'd', texto: 'Bruno Delbonnel, por A Tragédia de Macbeth', image: 'a-tragedia-de-macbeth' },
-          { valor: 'e', texto: 'Janusz Kominski, por Amor, Sublime Amor', image: 'amor-sublime-amor' },
+          { valor: 'd', texto: 'Bruno Delbonnel, por A Tragédia de Macbeth', imagem: 'a-tragedia-de-macbeth' },
+          { valor: 'e', texto: 'Janusz Kominski, por Amor, Sublime Amor', imagem: 'amor-sublime-amor' },
         ],
       },
       {
@@ -103,8 +121,8 @@
           { valor: 'a', texto: 'Germaine Franco, por Encanto', imagem: 'encanto' },
           { valor: 'b', texto: 'Jonny Greenwood, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
           { valor: 'c', texto: 'Hans Zimmer, por Duna', imagem: 'duna' },
-          { valor: 'd', texto: 'Nicholas Britell, por Não Olhe Para Cima', image: 'nao-olhe-para-cima' },
-          { valor: 'e', texto: 'Alberto Iglesias, por Mães Paralelas', image: 'maes-paralelas' },
+          { valor: 'd', texto: 'Nicholas Britell, por Não Olhe Para Cima', imagem: 'nao-olhe-para-cima' },
+          { valor: 'e', texto: 'Alberto Iglesias, por Mães Paralelas', imagem: 'maes-paralelas' },
         ],
       },
       {
@@ -113,8 +131,8 @@
           { valor: 'a', texto: '"Dos Oruguitas", Encanto', imagem: 'encanto' },
           { valor: 'b', texto: '"Be Alive", King Richard: Criando Campeãs', imagem: 'king-richard-criando-campeas' },
           { valor: 'c', texto: '"Down to Joy", Belfast', imagem: 'belfast' },
-          { valor: 'd', texto: '"No Time to Die", 007 - Sem tempo para morrer', image: '007-sem-tempo-para-morrer' },
-          { valor: 'e', texto: '"Somehow You Do", Four good days', image: 'four-good-days' },
+          { valor: 'd', texto: '"No Time to Die", 007 - Sem tempo para morrer', imagem: '007-sem-tempo-para-morrer' },
+          { valor: 'e', texto: '"Somehow You Do", Four good days', imagem: 'four-good-days' },
         ],
       },
       {
@@ -123,8 +141,8 @@
           { valor: 'a', texto: 'Peter Sciberras, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
           { valor: 'b', texto: 'Pamela Martin, por King Richard: Criando Campeãs', imagem: 'king-richard-criando-campeas' },
           { valor: 'c', texto: 'Joe Walker, por Duna', imagem: 'duna' },
-          { valor: 'd', texto: 'Hank Corwin, por Não Olhe Para Cima', image: 'nao-olhe-para-cima' },
-          { valor: 'e', texto: 'Myron Kerstein & Andrew Weisblum, por Tick, Tick... Boom!', image: 'tick-tick-boom' },
+          { valor: 'd', texto: 'Hank Corwin, por Não Olhe Para Cima', imagem: 'nao-olhe-para-cima' },
+          { valor: 'e', texto: 'Myron Kerstein & Andrew Weisblum, por Tick, Tick... Boom!', imagem: 'tick-tick-boom' },
         ],
       },
       {
@@ -133,8 +151,8 @@
           { valor: 'a', texto: 'Um Príncipe em Nova York 2', imagem: 'um-principe-em-nova-iorque-2' },
           { valor: 'b', texto: 'The Eyes of Tammy Faye', imagem: 'the-eyes-of-tammy-faye' },
           { valor: 'c', texto: 'Cruella', imagem: 'cruella' },
-          { valor: 'd', texto: 'Casa Gucci', image: 'casa-gucci' },
-          { valor: 'e', texto: 'Duna', image: 'duna' },
+          { valor: 'd', texto: 'Casa Gucci', imagem: 'casa-gucci' },
+          { valor: 'e', texto: 'Duna', imagem: 'duna' },
         ],
       },
       {
@@ -143,8 +161,8 @@
           { valor: 'a', texto: 'Tamara Deverell, por O Beco do Pesadelo', imagem: 'o-beco-do-pesadelo' },
           { valor: 'b', texto: 'Grant Major, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
           { valor: 'c', texto: 'Patrick Vermette, por Duna', imagem: 'duna' },
-          { valor: 'd', texto: 'Stefan Decbant, por A Tragédia de Macbeth', image: 'a-tragedia-de-macbeth' },
-          { valor: 'e', texto: 'Adam Stockhausen, por Amor, Sublime Amor', image: 'amor-sublime-amor' },
+          { valor: 'd', texto: 'Stefan Decbant, por A Tragédia de Macbeth', imagem: 'a-tragedia-de-macbeth' },
+          { valor: 'e', texto: 'Adam Stockhausen, por Amor, Sublime Amor', imagem: 'amor-sublime-amor' },
         ],
       },
       {
@@ -153,8 +171,8 @@
           { valor: 'a', texto: 'Drive My Car, Japão', imagem: 'drive-my-car' },
           { valor: 'b', texto: 'Flee, Dinamarca', imagem: 'flee' },
           { valor: 'c', texto: 'A mão de Deus, Itália', imagem: 'a-mao-de-deus' },
-          { valor: 'd', texto: 'Lunana: A Yak in the Classroom, Butão', image: 'lunana-a-yak-in-the-classroom' },
-          { valor: 'e', texto: 'The Worst Person in the World, Noruega', image: 'the-worst-person-in-the-world' },
+          { valor: 'd', texto: 'Lunana: A Yak in the Classroom, Butão', imagem: 'lunana-a-yak-in-the-classroom' },
+          { valor: 'e', texto: 'The Worst Person in the World, Noruega', imagem: 'the-worst-person-in-the-world' },
         ],
       },
       {
@@ -163,8 +181,8 @@
           { valor: 'a', texto: 'Ascension', imagem: 'ascension' },
           { valor: 'b', texto: 'Flee', imagem: 'flee' },
           { valor: 'c', texto: 'Attica', imagem: 'attica' },
-          { valor: 'd', texto: 'Summer of Soul (... ou Quando a Revolução Não Pode Ser Televisionada)', image: 'summer-of-soul' },
-          { valor: 'e', texto: 'Writing with Fire', image: 'writing-with-fire' },
+          { valor: 'd', texto: 'Summer of Soul (... ou Quando a Revolução Não Pode Ser Televisionada)', imagem: 'summer-of-soul' },
+          { valor: 'e', texto: 'Writing with Fire', imagem: 'writing-with-fire' },
         ],
       },
       {
@@ -173,8 +191,8 @@
           { valor: 'a', texto: 'Audible', imagem: 'audible' },
           { valor: 'b', texto: 'Lead Me Home', imagem: 'lead-me-home' },
           { valor: 'c', texto: 'The Queen of Basketball', imagem: 'the-queen-of-basketball' },
-          { valor: 'd', texto: 'Three Songs for Benazir', image: 'three-songs-for-benazir' },
-          { valor: 'e', texto: 'When We Were Bullies', image: 'when-we-were-bullies' },
+          { valor: 'd', texto: 'Three Songs for Benazir', imagem: 'three-songs-for-benazir' },
+          { valor: 'e', texto: 'When We Were Bullies', imagem: 'when-we-were-bullies' },
         ],
       },
       {
@@ -183,8 +201,8 @@
           { valor: 'a', texto: 'Encanto', imagem: 'encanto' },
           { valor: 'b', texto: 'Raya e o Último dragão', imagem: 'raya-e-o-ultimo-dragao' },
           { valor: 'c', texto: 'A Família Mitchell e a Revolta das Máquinas', imagem: 'a-familia-mitchell-e-a-revolta-das-maquinas' },
-          { valor: 'd', texto: 'Flee', image: 'flee' },
-          { valor: 'e', texto: 'Luca', image: 'luca' },
+          { valor: 'd', texto: 'Flee', imagem: 'flee' },
+          { valor: 'e', texto: 'Luca', imagem: 'luca' },
         ],
       },
       {
@@ -193,8 +211,8 @@
           { valor: 'a', texto: 'Robin Robin', imagem: 'robin-robin' },
           { valor: 'b', texto: 'Bestia', imagem: 'bestia' },
           { valor: 'c', texto: 'Affairs of the Art', imagem: 'affairs-of-the-art' },
-          { valor: 'd', texto: 'Boxballet', image: 'boxballet' },
-          { valor: 'e', texto: 'The Windshield Wiper', image: 'the-windshield-wiper' },
+          { valor: 'd', texto: 'Boxballet', imagem: 'boxballet' },
+          { valor: 'e', texto: 'The Windshield Wiper', imagem: 'the-windshield-wiper' },
         ],
       },
       {
@@ -203,8 +221,8 @@
           { valor: 'a', texto: 'Ala Kachuu - Take and Run', imagem: 'take-and-run' },
           { valor: 'b', texto: 'The Dress', imagem: 'the-dress' },
           { valor: 'c', texto: 'The Long Goodbye', imagem: 'the-long-goodbye' },
-          { valor: 'd', texto: 'On My Mind', image: 'on-my-mind' },
-          { valor: 'e', texto: 'Please Hold', image: 'please-hold' },
+          { valor: 'd', texto: 'On My Mind', imagem: 'on-my-mind' },
+          { valor: 'e', texto: 'Please Hold', imagem: 'please-hold' },
         ],
       },
       {
@@ -213,8 +231,8 @@
           { valor: 'a', texto: 'Amor, Sublime Amor', imagem: 'amor-sublime-amor' },
           { valor: 'b', texto: 'Ataque dos Cães', imagem: 'ataque-dos-caes' },
           { valor: 'c', texto: 'Belfast', imagem: 'belfast' },
-          { valor: 'd', texto: '007 - Sem tempo para morrer', image: '007-sem-tempo-para-morrer' },
-          { valor: 'e', texto: 'Duna', image: 'duna' },
+          { valor: 'd', texto: '007 - Sem tempo para morrer', imagem: '007-sem-tempo-para-morrer' },
+          { valor: 'e', texto: 'Duna', imagem: 'duna' },
         ],
       },
       {
@@ -223,8 +241,8 @@
           { valor: 'a', texto: 'Homem-aranha: Sem Volta Para Casa', imagem: 'homem-aranha-sem-volta-para-casa' },
           { valor: 'b', texto: 'Free Guy: Assumindo o Controle', imagem: 'free-guy-assumindo-o-controle' },
           { valor: 'c', texto: 'Shang-Chi e a Lenda dos Dez Anéis', imagem: 'shang-chi-e-a-lenda-dos-dez-aneis' },
-          { valor: 'd', texto: '007 - Sem tempo para morrer', image: '007-sem-tempo-para-morrer' },
-          { valor: 'e', texto: 'Duna', image: 'duna' },
+          { valor: 'd', texto: '007 - Sem tempo para morrer', imagem: '007-sem-tempo-para-morrer' },
+          { valor: 'e', texto: 'Duna', imagem: 'duna' },
         ],
       },
       {
@@ -233,13 +251,13 @@
           { valor: 'a', texto: 'Amor, Sublime Amor', imagem: 'amor-sublime-amor' },
           { valor: 'b', texto: 'Ataque dos Cães', imagem: 'ataque-dos-caes' },
           { valor: 'c', texto: 'Belfast', imagem: 'belfast' },
-          { valor: 'd', texto: 'Não olhe para cima', image: 'nã-olhe-para-cima' },
-          { valor: 'e', texto: 'Duna', image: 'duna' },
+          { valor: 'd', texto: 'Não olhe para cima', imagem: 'nao-olhe-para-cima' },
+          { valor: 'e', texto: 'Duna', imagem: 'duna' },
           { valor: 'f', texto: 'King Richard: Criando Campeãs', imagem: 'king-richard-criando-campeas' },
           { valor: 'g', texto: 'Licorice Pizza', imagem: 'licorice-pizza' },
           { valor: 'h', texto: 'O Beco do Pesadelo', imagem: 'o-beco-do-pesadelo' },
-          { valor: 'i', texto: 'Drive My Car', image: 'drive-my-car' },
-          { valor: 'j', texto: 'No Ritmo do Coração', image: 'no-ritmo-do-coracao' },
+          { valor: 'i', texto: 'Drive My Car', imagem: 'drive-my-car' },
+          { valor: 'j', texto: 'No Ritmo do Coração', imagem: 'no-ritmo-do-coracao' },
         ],
       },
     ]
