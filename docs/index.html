@@ -10,27 +10,58 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
   <script src="https://unpkg.com/alpinejs" defer></script>
+  <style>
+    [type=radio] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    /* IMAGE STYLES */
+    [type=radio]+img {
+      cursor: pointer;
+    }
+
+    img:hover {
+      transform: scale(1.03);
+      transition: ease-in-out .2s;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  </style>
 </head>
 
 <body class="antialiased text-preto6 bg-gray-100">
-  <div class="flex flex-col items-center h-screen bg-no-repeat bg-contain" x-data="{indicados2022, escolha:''}">
+  <div class="flex flex-col items-center h-screen bg-no-repeat bg-contain p-8" x-data="{indicados2022}">
     <h1 class="text-5xl font-extrabold text-livros">Bolão OscArvore</h1>
     <h2 class="text-2xl">Qual sua aposta para o Oscar 2022?</h2>
 
     <template x-for="(indicados, indice) in indicados2022" :key="indice">
       <section class="rounded-xl shadow bg-gray-50 m-3">
-        <h3 class="text-xl font-bold m-2.5 p-1 border-b-8 border-b-livros uppercase" x-text="indicados.categoria"></h3>
-        <div class="container-respostas p-4 grid grid-cols-5 gap-2">
+        <h3 class="text-xl font-bold m-2.5 p-1 border-b-8 border-b-livros uppercase"
+          x-text="(indice+1)+'. '+indicados.categoria"></h3>
+        <div class="container-respostas pt-1 px-4 pb-4 grid grid-cols-5 gap-2">
           <template x-for="resposta in indicados.respostas">
-            <img width="150px" :src="`./imgs/poster-filmes/${resposta.imagem}.jpg`" alt="poster do filme">
-            <label class="opcao-resposta" :class="{ 'active': escolha === resposta.valor }">
-              <input type="radio" :value="resposta.valor" x-model="escolha">
-              <span x-text="resposta.texto"></span>
+            <label class="group">
+              <input :name="`categoria-${indice+1}`" class="peer" type="radio" :value="resposta.valor">
+              <img
+                class="mb-2 rounded-lg shadow-xl peer-checked:outline-livros peer-checked:outline-4 peer-checked:outline"
+                width="150px" :src="`./imgs/poster-filmes/${resposta.imagem}.jpg`" alt="poster do filme">
+              <p class="text-center font-bold" x-text="resposta.texto"></p>
             </label>
           </template>
         </div>
       </section>
     </template>
+
+    <button class="bg-livros p-6 rounded-xl text-white font-bold shadow-lg shadow-gray-600" type="submit">
+      🎫 Registrar minhas apostas
+    </button>
   </div>
 
   <script>
@@ -156,6 +187,16 @@
         ],
       },
       {
+        categoria: 'Melhor figurino:',
+        respostas: [
+          { valor: 'a', texto: 'O Beco do Pesadelo', imagem: 'o-beco-do-pesadelo' },
+          { valor: 'b', texto: 'Cruella', imagem: 'cruella' },
+          { valor: 'c', texto: 'Duna', imagem: 'duna' },
+          { valor: 'd', texto: 'Cyrano', imagem: 'cyrano' },
+          { valor: 'e', texto: 'Amor, Sublime Amor', imagem: 'amor-sublime-amor' },
+        ],
+      },
+      {
         categoria: 'Melhor design de produção:',
         respostas: [
           { valor: 'a', texto: 'Tamara Deverell, por O Beco do Pesadelo', imagem: 'o-beco-do-pesadelo' },
@@ -261,6 +302,16 @@
         ],
       },
     ]
+
+    document.addEventListener('alpine:init', () => {
+      Alpine.store('escolhas', {
+        listaDeEscolhas: {},
+
+        adicionar(i, escolha) {
+          this.listaDeEscolhas[i] = escolha
+        },
+      })
+    })
   </script>
 </body>
 
