@@ -37,39 +37,48 @@
 </head>
 
 <body class="antialiased text-preto6 bg-gray-100">
-  <div class="flex flex-col items-center h-screen bg-no-repeat bg-contain p-8" x-data="{indicados2022}" x-init="$watch('$store.escolhas', value => {
-    console.log('listaDeEscolhas', $store.escolhas.listaDeEscolhas)
+  <div x-data="{escolhido: false, finalizado: false}" x-init="$watch('$store.escolhas', value => {
+    escolhido = Object.entries($store.escolhas.listaDeEscolhas).length === 23
   })">
-    <h1 class="text-5xl font-extrabold text-livros">Bolão OscArvore</h1>
-    <h2 class="text-2xl">Qual sua aposta para o Oscar 2022?</h2>
+    <template x-if="!finalizado">
+      <div class="flex flex-col items-center h-screen p-8" x-data="{indicados2022}">
+        <h1 class="text-5xl font-extrabold text-livros">Bolão OscArvore</h1>
+        <h2 class="text-2xl">Quais suas apostas para o Oscar 2022?</h2>
 
-    <template x-for="(indicados, indice) in indicados2022" :key="indice">
-      <section class="rounded-xl shadow bg-gray-50 m-3">
-        <h3 class="text-xl font-bold m-2.5 p-1 border-b-8 border-b-livros uppercase"
-          x-text="(indice+1)+'. '+indicados.categoria"></h3>
-        <div class="container-respostas pt-1 px-4 pb-4 grid grid-cols-5 gap-2">
-          <template x-for="resposta in indicados.respostas">
-            <label class="group">
-              <input
-              :name="`categoria-${indice+1}`"
-              class="peer"
-              type="radio"
-              :value="resposta.valor"
-              x-on:change="$store.escolhas.listaDeEscolhas[indice] = $el.value"
-              >
-              <img
-                class="mb-2 rounded-lg shadow-xl peer-checked:outline-livros peer-checked:outline-4 peer-checked:outline"
-                width="150px" :src="`./imgs/poster-filmes/${resposta.imagem}.jpg`" alt="poster do filme">
-              <p class="text-center font-bold" x-text="resposta.texto"></p>
-            </label>
-          </template>
-        </div>
-      </section>
+        <template x-for="(indicados, indice) in indicados2022" :key="indice">
+          <section class="rounded-xl shadow bg-gray-50 m-3">
+            <h3 class="text-xl font-bold m-2.5 p-1 border-b-8 border-b-livros uppercase"
+              x-text="(indice+1)+'. '+indicados.categoria"></h3>
+            <div class="container-respostas pt-1 px-4 pb-4 grid grid-cols-5 gap-2">
+              <template x-for="resposta in indicados.respostas">
+                <label class="group">
+                  <input
+                  :name="`categoria-${indice+1}`"
+                  class="peer"
+                  type="radio"
+                  :value="resposta.valor"
+                  x-on:change="$store.escolhas.listaDeEscolhas[indice] = $el.value"
+                  >
+                  <img
+                    class="mb-2 rounded-lg shadow-xl peer-checked:outline-livros peer-checked:outline-4 peer-checked:outline"
+                    width="150px" :src="`./imgs/poster-filmes/${resposta.imagem}.jpg`" alt="poster do filme">
+                  <p class="text-center font-bold" x-text="resposta.texto"></p>
+                </label>
+              </template>
+            </div>
+          </section>
+        </template>
+
+        <button
+          class="bg-livros p-6 rounded-xl text-white font-bold shadow-lg shadow-gray-600 disabled:opacity-60"
+          type="submit"
+          x-on:click="finalizado = true"
+          :disabled="!escolhido"
+        >
+          🎫 Registrar minhas apostas
+        </button>
+      </div>
     </template>
-
-    <button class="bg-livros p-6 rounded-xl text-white font-bold shadow-lg shadow-gray-600" type="submit">
-      🎫 Registrar minhas apostas
-    </button>
   </div>
 
   <script>
@@ -314,10 +323,6 @@
     document.addEventListener('alpine:init', () => {
       Alpine.store('escolhas', {
         listaDeEscolhas: {},
-
-        adicionar(i, escolha) {
-          this.listaDeEscolhas[i] = escolha
-        },
       })
     })
 
