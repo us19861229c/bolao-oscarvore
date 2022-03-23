@@ -52,11 +52,12 @@
               <template x-for="resposta in indicados.respostas">
                 <label class="group">
                   <input
-                  :name="`categoria-${indice+1}`"
-                  class="peer"
-                  type="radio"
-                  :value="resposta.valor"
-                  x-on:change="$store.escolhas.listaDeEscolhas[indice] = $el.value"
+                    :name="`categoria-${indice+1}`"
+                    :value="resposta.valor"
+                    class="peer"
+                    type="radio"
+                    x-model="$store.escolhas.listaDeEscolhas[indice]"
+                    x-on:change="$store.escolhas.listaDeEscolhas[indice] = $el.value"
                   >
                   <img
                     :alt="`Poster do filme ${filmes.find(filme => resposta.filme === filme.id).nome}`"
