@@ -9,30 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
   <script src="https://unpkg.com/alpinejs" defer></script>
-  <style>
-    [type=radio] {
-      position: absolute;
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    /* IMAGE STYLES */
-    [type=radio]+img {
-      cursor: pointer;
-    }
-
-    img:hover {
-      transform: scale(1.03);
-      transition: ease-in-out .2s;
-    }
-
-    label {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-  </style>
 </head>
 
 <body class="antialiased text-preto6 bg-gray-100">
@@ -42,21 +18,21 @@
   escolhido = finalizado = Object.entries($store.escolhas.listaDeEscolhas).length === 23;
   ">
     <template x-if="!finalizado">
-      <div class="flex flex-col items-center h-screen p-8">
+      <div class="flex flex-col items-center py-8 px-2">
         <h1 class="text-5xl font-extrabold text-livros">Bolão OscArvore</h1>
         <h2 class="text-2xl">Quais suas apostas para o Oscar 2022?</h2>
 
         <template x-for="(indicado, indice) in indicados2022" :key="indice">
-          <section class="rounded-xl shadow bg-gray-50 m-3">
-            <h3 class="text-xl font-bold m-2.5 p-1 border-b-8 border-b-livros uppercase"
+          <section class="rounded-xl shadow bg-gray-50 my-3 w-full lg:w-auto py-4">
+            <h3 class="text-xl font-bold mx-2.5 mb-2.5 border-b-8 border-b-livros uppercase"
               x-text="`${indice+1}. ${indicado.categoria}:`"></h3>
-            <div class="container-respostas pt-1 px-4 pb-4 grid grid-cols-5 gap-2">
+            <div class="px-2 sm:px-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-1 sm:gap-5">
               <template x-for="resposta in indicado.respostas">
-                <label class="group">
+                <label class="max-w-[150px] flex flex-col items-center">
                   <input
                     :name="`categoria-${indice+1}`"
                     :value="resposta.valor"
-                    class="peer"
+                    class="peer sr-only"
                     type="radio"
                     x-model="$store.escolhas.listaDeEscolhas[indice]"
                     x-on:change="$store.escolhas.listaDeEscolhas[indice] = $el.value"
@@ -64,8 +40,9 @@
                   <img
                     :alt="`Poster do filme ${filmes.find(filme => resposta.filme === filme.id).nome}`"
                     :src="`./imgs/poster-filmes/${filmes.find(filme => resposta.filme === filme.id).capa}.jpg`"
-                    class="mb-2 rounded-lg shadow-xl peer-checked:outline-livros peer-checked:outline-4 peer-checked:outline"
-                    width="150px"
+                    class="hover:scale-[1.03] duration-200 transition ease-in-out cursor-pointer mb-2 rounded-lg hover:shadow-xl peer-checked:outline-livros peer-checked:outline-4 peer-checked:outline"
+                    height="225"
+                    width="150"
                   >
                   <p class="text-center font-bold" x-text="resposta.texto"></p>
                 </label>
@@ -75,10 +52,10 @@
         </template>
 
         <button
-          class="bg-livros p-6 rounded-xl text-white font-bold shadow-lg shadow-gray-600 disabled:opacity-60"
+          :disabled="!escolhido"
+          class="bg-livros p-6 rounded-xl text-white font-bold shadow-md disabled:opacity-60 w-full max-w-screen-sm"
           type="submit"
           x-on:click="finalizado = true"
-          :disabled="!escolhido"
         >
           🎫 Registrar minhas apostas
         </button>
@@ -86,10 +63,10 @@
     </template>
 
     <template x-if="finalizado">
-      <div class="flex flex-col items-center h-screen p-8">
-        <h1 class="text-5xl font-extrabold text-livros mb-4">🍿 Minhas escolhas foram: 🎥</h1>
+      <div class="flex flex-col items-center p-8">
+        <h1 class="text-5xl font-extrabold text-livros">🍿 Minhas escolhas foram: 🎥</h1>
 
-        <ol class="list-decimal">
+        <ol class="list-decimal my-4 mx-2">
           <template x-for="(indicado, indice) in indicados2022" :key="indice">
             <li>
               <span x-text="`${indicado.categoria}: `"></span>
