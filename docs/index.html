@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,8 +36,8 @@
 </head>
 
 <body class="antialiased text-preto6 bg-gray-100">
-  <div x-data="{escolhido: false, finalizado: false}" x-init="$watch('$store.escolhas', value => {
-    escolhido = Object.entries($store.escolhas.listaDeEscolhas).length === 23
+  <div x-data="{filmes, escolhido: false, finalizado: false}" x-init="$watch('$store.escolhas', value => {
+    escolhido = Object.entries($store.escolhas.listaDeEscolhas).length === 23;
   })">
     <template x-if="!finalizado">
       <div class="flex flex-col items-center h-screen p-8" x-data="{indicados2022}">
@@ -60,8 +59,11 @@
                   x-on:change="$store.escolhas.listaDeEscolhas[indice] = $el.value"
                   >
                   <img
+                    :alt="`Poster do filme ${filmes.find(filme => resposta.filme === filme.id).nome}`"
+                    :src="`./imgs/poster-filmes/${filmes.find(filme => resposta.filme === filme.id).capa}.jpg`"
                     class="mb-2 rounded-lg shadow-xl peer-checked:outline-livros peer-checked:outline-4 peer-checked:outline"
-                    width="150px" :src="`./imgs/poster-filmes/${resposta.imagem}.jpg`" alt="poster do filme">
+                    width="150px"
+                  >
                   <p class="text-center font-bold" x-text="resposta.texto"></p>
                 </label>
               </template>
@@ -79,254 +81,319 @@
         </button>
       </div>
     </template>
+
+    <template x-if="finalizado">
+      <div class="flex flex-col items-center h-screen p-8">
+        <h1 class="text-5xl font-extrabold text-livros">Minhas escolhas foram:</h1>
+
+        <template x-for="">
+          <div x-text="categoria"></div>
+        </template>
+      </div>
+    </template>
   </div>
 
   <script>
+    const filmes = [
+      { id: 1, nome: '007 - Sem tempo para morrer', capa: '007-sem-tempo-para-morrer' },
+      { id: 2, nome: 'A família Mitchell e a revolta das máquinas', capa: 'a-familia-mitchell-e-a-revolta-das-maquinas' },
+      { id: 3, nome: 'A filha perdida', capa: 'a-filha-perdida' },
+      { id: 4, nome: 'A mão de Deus', capa: 'a-mao-de-deus' },
+      { id: 5, nome: 'A tragédia de Macbeth', capa: 'a-tragedia-de-macbeth' },
+      { id: 6, nome: 'Affairs of the art', capa: 'affairs-of-the-art' },
+      { id: 7, nome: 'Amor sublime amor', capa: 'amor-sublime-amor' },
+      { id: 8, nome: 'Apresentando os Ricardos', capa: 'apresentando-os-ricardos' },
+      { id: 9, nome: 'Ascension', capa: 'ascension' },
+      { id: 10, nome: 'Ataque dos cães', capa: 'ataque-dos-caes' },
+      { id: 11, nome: 'Attica', capa: 'attica' },
+      { id: 12, nome: 'Audible', capa: 'audible' },
+      { id: 13, nome: 'Belfast', capa: 'belfast' },
+      { id: 14, nome: 'Bestia', capa: 'bestia' },
+      { id: 15, nome: 'Boxballet', capa: 'boxballet' },
+      { id: 16, nome: 'Casa Gucci', capa: 'casa-gucci' },
+      { id: 17, nome: 'Cruella', capa: 'cruella' },
+      { id: 18, nome: 'Cyrano', capa: 'cyrano' },
+      { id: 19, nome: 'Drive my car', capa: 'drive-my-car' },
+      { id: 20, nome: 'Duna', capa: 'duna' },
+      { id: 21, nome: 'Encanto', capa: 'encanto' },
+      { id: 22, nome: 'Flee', capa: 'flee' },
+      { id: 23, nome: 'Four good days', capa: 'four-good-days' },
+      { id: 24, nome: 'Free guy: assumindo o controle', capa: 'free-guy-assumindo-o-controle' },
+      { id: 25, nome: 'Homem-Aranha: sem volta para casa', capa: 'homem-aranha-sem-volta-para-casa' },
+      { id: 26, nome: 'King Richard: criando campeãs', capa: 'king-richard-criando-campeas' },
+      { id: 27, nome: 'Lead me home', capa: 'lead-me-home' },
+      { id: 28, nome: 'Licorice pizza', capa: 'licorice-pizza' },
+      { id: 29, nome: 'Luca', capa: 'luca' },
+      { id: 30, nome: 'A Felicidade das Pequenas Coisas', capa: 'lunana-a-yak-in-the-classroom' },
+      { id: 31, nome: 'Mães paralelas', capa: 'maes-paralelas' },
+      { id: 32, nome: 'Não olhe para cima', capa: 'nao-olhe-para-cima' },
+      { id: 33, nome: 'No ritmo do coração', capa: 'no-ritmo-do-coracao' },
+      { id: 34, nome: 'O beco do pesadelo', capa: 'o-beco-do-pesadelo' },
+      { id: 35, nome: 'On my mind', capa: 'on-my-mind' },
+      { id: 36, nome: 'Please hold', capa: 'please-hold' },
+      { id: 37, nome: 'Raya e o último dragão', capa: 'raya-e-o-ultimo-dragao' },
+      { id: 38, nome: 'Robin robin', capa: 'robin-robin' },
+      { id: 39, nome: 'Shang-chi e a lenda dos dez aneis', capa: 'shang-chi-e-a-lenda-dos-dez-aneis' },
+      { id: 40, nome: 'Spencer', capa: 'spencer' },
+      { id: 41, nome: 'Summer of soul', capa: 'summer-of-soul' },
+      { id: 42, nome: 'Take and run', capa: 'take-and-run' },
+      { id: 43, nome: 'The dress', capa: 'the-dress' },
+      { id: 44, nome: 'The eyes of Tammy Faye', capa: 'the-eyes-of-tammy-faye' },
+      { id: 45, nome: 'The long goodbye', capa: 'the-long-goodbye' },
+      { id: 46, nome: 'The queen of basketball', capa: 'the-queen-of-basketball' },
+      { id: 47, nome: 'The windshield wiper', capa: 'the-windshield-wiper' },
+      { id: 48, nome: 'The worst person in the world', capa: 'the-worst-person-in-the-world' },
+      { id: 49, nome: 'Three songs for Benazir', capa: 'three-songs-for-benazir' },
+      { id: 50, nome: 'tick,tick... BOOM', capa: 'tick-tick-boom' },
+      { id: 51, nome: 'Um príncipe em Nova Iorque 2', capa: 'um-principe-em-nova-iorque-2' },
+      { id: 52, nome: 'When we were bullies', capa: 'when-we-were-bullies' },
+      { id: 53, nome: 'Writing with fire', capa: 'writing-with-fire' },
+    ];
+
     const indicados2022 = [
       {
         categoria: 'Melhor direção:',
         respostas: [
-          { valor: 'a', texto: 'Kenneth Branagh, por Belfast', imagem: 'belfast' },
-          { valor: 'b', texto: 'Ryûsuke Hamaguchi, por Drive My Car', imagem: 'drive-my-car' },
-          { valor: 'c', texto: 'Paul Thomas Anderson, por Licorice Pizza', imagem: 'licorice-pizza' },
-          { valor: 'd', texto: 'Jane Campion, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
-          { valor: 'e', texto: 'Steven Spielberg, por Amor, Sublime Amor', imagem: 'amor-sublime-amor' },
+          { valor: 'a', texto: 'Kenneth Branagh', filme: 13 },
+          { valor: 'b', texto: 'Ryûsuke Hamaguchi', filme: 19 },
+          { valor: 'c', texto: 'Paul Thomas Anderson', filme: 28 },
+          { valor: 'd', texto: 'Jane Campion', filme: 10 },
+          { valor: 'e', texto: 'Steven Spielberg', filme: 7 },
         ],
       },
       {
         categoria: 'Melhor ator:',
         respostas: [
-          { valor: 'a', texto: 'Javier Bardem, por Apresentando os Ricardos', imagem: 'apresentando-os-ricardos' },
-          { valor: 'b', texto: 'Benedict Cumberbatch, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
-          { valor: 'c', texto: 'Andrew Garfield, por Tick, Tick... Boom!', imagem: 'tick-tick-boom' },
-          { valor: 'd', texto: 'Will Smith, por King Richard: Criando Campeãs', imagem: 'king-richard-criando-campeas' },
-          { valor: 'e', texto: 'Denzel Washington, por A Tragédia de Macbeth', imagem: 'a-tragedia-de-macbeth' },
+          { valor: 'a', texto: 'Javier Bardem', filme: 8 },
+          { valor: 'b', texto: 'Benedict Cumberbatch', filme: 10 },
+          { valor: 'c', texto: 'Andrew Garfield', filme: 50 },
+          { valor: 'd', texto: 'Will Smith', filme: 26 },
+          { valor: 'e', texto: 'Denzel Washington', filme: 5 },
         ],
       },
       {
         categoria: 'Melhor atriz:',
         respostas: [
-          { valor: 'a', texto: 'Nicole Kidman, por Apresentando os Ricardos', imagem: 'apresentando-os-ricardos' },
-          { valor: 'b', texto: 'Jessica Chastain, por The Eyes of Tammy Faye', imagem: 'the-eyes-of-tammy-faye' },
-          { valor: 'c', texto: 'Olivia Colman, por A Filha Perdida', imagem: 'a-filha-perdida' },
-          { valor: 'd', texto: 'Penélope Cruz, por Mães Paralelas', imagem: 'maes-paralelas' },
-          { valor: 'e', texto: 'Kristen Stewart, por Spencer', imagem: 'spencer' },
+          { valor: 'a', texto: 'Nicole Kidman', filme: 8 },
+          { valor: 'b', texto: 'Jessica Chastain', filme: 44 },
+          { valor: 'c', texto: 'Olivia Colman', filme: 3 },
+          { valor: 'd', texto: 'Penélope Cruz', filme: 31 },
+          { valor: 'e', texto: 'Kristen Stewart', filme: 40 },
         ],
       },
       {
         categoria: 'Melhor ator coadjuvante:',
         respostas: [
-          { valor: 'a', texto: 'Jesse Plemons, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
-          { valor: 'b', texto: 'J.K. Simmons, por Apresentando os Ricardos', imagem: 'apresentando-os-ricardos' },
-          { valor: 'c', texto: 'Troy Kotsur, por No Ritmo do Coração', imagem: 'no-ritmo-do-coracao' },
-          { valor: 'a', texto: 'Kodi Smit-McPhee, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
-          { valor: 'e', texto: 'Ciarán Hinds, por Belfast', imagem: 'belfast' },
+          { valor: 'a', texto: 'Jesse Plemons', filme: 10 },
+          { valor: 'b', texto: 'J.K. Simmons', filme: 8 },
+          { valor: 'c', texto: 'Troy Kotsur', filme: 33 },
+          { valor: 'a', texto: 'Kodi Smit-McPhee', filme: 10 },
+          { valor: 'e', texto: 'Ciarán Hinds', filme: 13 },
         ],
       },
       {
         categoria: 'Melhor atriz coadjuvante:',
         respostas: [
-          { valor: 'a', texto: 'Ariana DeBose, em Amor, Sublime Amor', imagem: 'amor-sublime-amor' },
-          { valor: 'b', texto: 'Judi Dench, em Belfast', imagem: 'belfast' },
-          { valor: 'c', texto: 'Jessie Buckley, em A Filha Perdida', imagem: 'a-filha-perdida' },
-          { valor: 'd', texto: 'Kirsten Dunst, em Ataque dos Cães', imagem: 'ataque-dos-caes' },
-          { valor: 'e', texto: 'Aunjanue Ellis, por King Richard: Criando Campeãs', imagem: 'king-richard-criando-campeas' },
+          { valor: 'a', texto: 'Ariana DeBose', filme: 7 },
+          { valor: 'b', texto: 'Judi Dench', filme: 13 },
+          { valor: 'c', texto: 'Jessie Buckley', filme: 3 },
+          { valor: 'd', texto: 'Kirsten Dunst', filme: 10 },
+          { valor: 'e', texto: 'Aunjanue Ellis', filme: 26 },
         ],
       },
       {
         categoria: 'Melhor roteiro original:',
         respostas: [
-          { valor: 'a', texto: 'Kenneth Branagh, por Belfast', imagem: 'belfast' },
-          { valor: 'b', texto: 'Adam McKay, por Não Olhe Para Cima', imagem: 'nao-olhe-para-cima' },
-          { valor: 'c', texto: 'Paul Thomas Anderson, por Licorice Pizza', imagem: 'licorice-pizza' },
-          { valor: 'd', texto: 'Zach Baylin, por King Richard: Criando Campeãs', imagem: 'king-richard-criando-campeas' },
-          { valor: 'e', texto: 'Eskil Vogt & Joachim Trier, por The Worst Person in the World', imagem: 'the-worst-person-in-the-world' },
+          { valor: 'a', texto: 'Kenneth Branagh', filme: 13 },
+          { valor: 'b', texto: 'Adam McKay', filme: 32},
+          { valor: 'c', texto: 'Paul Thomas Anderson', filme: 28 },
+          { valor: 'd', texto: 'Zach Baylin', filme: 26 },
+          { valor: 'e', texto: 'Eskil Vogt & Joachim Trier', filme: 48 },
         ],
       },
       {
         categoria: 'Melhor roteiro adaptado:',
         respostas: [
-          { valor: 'a', texto: 'Maggie Gyllenhaal, por A Filha Perdida', imagem: 'a-filha-perdida' },
-          { valor: 'b', texto: 'Jane Campion, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
-          { valor: 'c', texto: 'Jon Spaiths, Denis Villeneuve & Eric Roth, por Duna', imagem: 'duna' },
-          { valor: 'd', texto: 'Ryûsuke Hamaguchi & Takamasa Oe, por Drive My Car', imagem: 'drive-my-car' },
-          { valor: 'e', texto: 'Siân Heder, por No Ritmo do Coração', imagem: 'no-ritmo-do-coracao' },
+          { valor: 'a', texto: 'Maggie Gyllenhaal', filme: 3 },
+          { valor: 'b', texto: 'Jane Campion', filme: 10 },
+          { valor: 'c', texto: 'Jon Spaiths, Denis Villeneuve & Eric Roth', filme: 20 },
+          { valor: 'd', texto: 'Ryûsuke Hamaguchi & Takamasa Oe', filme: 19 },
+          { valor: 'e', texto: 'Siân Heder', filme: 33 },
         ],
       },
       {
         categoria: 'Melhor fotografia:',
         respostas: [
-          { valor: 'a', texto: 'Dan Lautsen, por O Beco do Pesadelo', imagem: 'o-beco-do-pesadelo' },
-          { valor: 'b', texto: 'Ari Wegner, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
-          { valor: 'c', texto: 'Greig Fraser, por Duna', imagem: 'duna' },
-          { valor: 'd', texto: 'Bruno Delbonnel, por A Tragédia de Macbeth', imagem: 'a-tragedia-de-macbeth' },
-          { valor: 'e', texto: 'Janusz Kominski, por Amor, Sublime Amor', imagem: 'amor-sublime-amor' },
+          { valor: 'a', texto: 'Dan Lautsen', filme: 34 },
+          { valor: 'b', texto: 'Ari Wegner', filme: 10 },
+          { valor: 'c', texto: 'Greig Fraser', filme: 20 },
+          { valor: 'd', texto: 'Bruno Delbonnel', filme: 5 },
+          { valor: 'e', texto: 'Janusz Kominski', filme: 7 },
         ],
       },
       {
         categoria: 'Melhor trilha sonora:',
         respostas: [
-          { valor: 'a', texto: 'Germaine Franco, por Encanto', imagem: 'encanto' },
-          { valor: 'b', texto: 'Jonny Greenwood, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
-          { valor: 'c', texto: 'Hans Zimmer, por Duna', imagem: 'duna' },
-          { valor: 'd', texto: 'Nicholas Britell, por Não Olhe Para Cima', imagem: 'nao-olhe-para-cima' },
-          { valor: 'e', texto: 'Alberto Iglesias, por Mães Paralelas', imagem: 'maes-paralelas' },
+          { valor: 'a', texto: 'Germaine Franco', filme: 21 },
+          { valor: 'b', texto: 'Jonny Greenwood', filme: 10 },
+          { valor: 'c', texto: 'Hans Zimmer', filme: 20 },
+          { valor: 'd', texto: 'Nicholas Britell', filme: 32},
+          { valor: 'e', texto: 'Alberto Iglesias', filme: 31 },
         ],
       },
       {
         categoria: 'Melhor canção original:',
         respostas: [
-          { valor: 'a', texto: '"Dos Oruguitas", Encanto', imagem: 'encanto' },
-          { valor: 'b', texto: '"Be Alive", King Richard: Criando Campeãs', imagem: 'king-richard-criando-campeas' },
-          { valor: 'c', texto: '"Down to Joy", Belfast', imagem: 'belfast' },
-          { valor: 'd', texto: '"No Time to Die", 007 - Sem tempo para morrer', imagem: '007-sem-tempo-para-morrer' },
-          { valor: 'e', texto: '"Somehow You Do", Four good days', imagem: 'four-good-days' },
+          { valor: 'a', texto: 'Dos Oruguitas', filme: 21 },
+          { valor: 'b', texto: 'Be Alive', filme: 26 },
+          { valor: 'c', texto: 'Down to Joy', filme: 13 },
+          { valor: 'd', texto: 'No Time to Die', filme: 1 },
+          { valor: 'e', texto: 'Somehow You Do', filme: 23 },
         ],
       },
       {
         categoria: 'Melhor edição:',
         respostas: [
-          { valor: 'a', texto: 'Peter Sciberras, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
-          { valor: 'b', texto: 'Pamela Martin, por King Richard: Criando Campeãs', imagem: 'king-richard-criando-campeas' },
-          { valor: 'c', texto: 'Joe Walker, por Duna', imagem: 'duna' },
-          { valor: 'd', texto: 'Hank Corwin, por Não Olhe Para Cima', imagem: 'nao-olhe-para-cima' },
-          { valor: 'e', texto: 'Myron Kerstein & Andrew Weisblum, por Tick, Tick... Boom!', imagem: 'tick-tick-boom' },
+          { valor: 'a', texto: 'Peter Sciberras', filme: 10 },
+          { valor: 'b', texto: 'Pamela Martin', filme: 26 },
+          { valor: 'c', texto: 'Joe Walker', filme: 20 },
+          { valor: 'd', texto: 'Hank Corwin', filme: 32},
+          { valor: 'e', texto: 'Myron Kerstein & Andrew Weisblum', filme: 50 },
         ],
       },
       {
         categoria: 'Melhor cabelo & maquiagem:',
         respostas: [
-          { valor: 'a', texto: 'Um Príncipe em Nova York 2', imagem: 'um-principe-em-nova-iorque-2' },
-          { valor: 'b', texto: 'The Eyes of Tammy Faye', imagem: 'the-eyes-of-tammy-faye' },
-          { valor: 'c', texto: 'Cruella', imagem: 'cruella' },
-          { valor: 'd', texto: 'Casa Gucci', imagem: 'casa-gucci' },
-          { valor: 'e', texto: 'Duna', imagem: 'duna' },
+          { valor: 'a', texto: 'Um Príncipe em Nova York 2', filme: 51 },
+          { valor: 'b', texto: 'The Eyes of Tammy Faye', filme: 44 },
+          { valor: 'c', texto: 'Cruella', filme: 17 },
+          { valor: 'd', texto: 'Casa Gucci', filme: 16 },
+          { valor: 'e', texto: 'Duna', filme: 20 },
         ],
       },
       {
         categoria: 'Melhor figurino:',
         respostas: [
-          { valor: 'a', texto: 'O Beco do Pesadelo', imagem: 'o-beco-do-pesadelo' },
-          { valor: 'b', texto: 'Cruella', imagem: 'cruella' },
-          { valor: 'c', texto: 'Duna', imagem: 'duna' },
-          { valor: 'd', texto: 'Cyrano', imagem: 'cyrano' },
-          { valor: 'e', texto: 'Amor, Sublime Amor', imagem: 'amor-sublime-amor' },
+          { valor: 'a', texto: 'O Beco do Pesadelo', filme: 34 },
+          { valor: 'b', texto: 'Cruella', filme: 17 },
+          { valor: 'c', texto: 'Duna', filme: 20 },
+          { valor: 'd', texto: 'Cyrano', filme: 18 },
+          { valor: 'e', texto: 'Amor, Sublime Amor', filme: 7 },
         ],
       },
       {
         categoria: 'Melhor design de produção:',
         respostas: [
-          { valor: 'a', texto: 'Tamara Deverell, por O Beco do Pesadelo', imagem: 'o-beco-do-pesadelo' },
-          { valor: 'b', texto: 'Grant Major, por Ataque dos Cães', imagem: 'ataque-dos-caes' },
-          { valor: 'c', texto: 'Patrick Vermette, por Duna', imagem: 'duna' },
-          { valor: 'd', texto: 'Stefan Decbant, por A Tragédia de Macbeth', imagem: 'a-tragedia-de-macbeth' },
-          { valor: 'e', texto: 'Adam Stockhausen, por Amor, Sublime Amor', imagem: 'amor-sublime-amor' },
+          { valor: 'a', texto: 'Tamara Deverell', filme: 34 },
+          { valor: 'b', texto: 'Grant Major', filme: 10 },
+          { valor: 'c', texto: 'Patrick Vermette', filme: 20 },
+          { valor: 'd', texto: 'Stefan Decbant', filme: 5 },
+          { valor: 'e', texto: 'Adam Stockhausen', filme: 7 },
         ],
       },
       {
         categoria: 'Melhor filme internacional:',
         respostas: [
-          { valor: 'a', texto: 'Drive My Car, Japão', imagem: 'drive-my-car' },
-          { valor: 'b', texto: 'Flee, Dinamarca', imagem: 'flee' },
-          { valor: 'c', texto: 'A mão de Deus, Itália', imagem: 'a-mao-de-deus' },
-          { valor: 'd', texto: 'Lunana: A Yak in the Classroom, Butão', imagem: 'lunana-a-yak-in-the-classroom' },
-          { valor: 'e', texto: 'The Worst Person in the World, Noruega', imagem: 'the-worst-person-in-the-world' },
+          { valor: 'a', texto: 'Japão', filme: 19 },
+          { valor: 'b', texto: 'Dinamarca', filme: 22 },
+          { valor: 'c', texto: 'Itália', filme: 4 },
+          { valor: 'd', texto: 'Butão', filme: 30 },
+          { valor: 'e', texto: 'Noruega', filme: 48 },
         ],
       },
       {
         categoria: 'Melhor documentário em longa-metragem:',
         respostas: [
-          { valor: 'a', texto: 'Ascension', imagem: 'ascension' },
-          { valor: 'b', texto: 'Flee', imagem: 'flee' },
-          { valor: 'c', texto: 'Attica', imagem: 'attica' },
-          { valor: 'd', texto: 'Summer of Soul (... ou Quando a Revolução Não Pode Ser Televisionada)', imagem: 'summer-of-soul' },
-          { valor: 'e', texto: 'Writing with Fire', imagem: 'writing-with-fire' },
+          { valor: 'a', texto: 'Ascension', filme: 9 },
+          { valor: 'b', texto: 'Flee', filme: 22 },
+          { valor: 'c', texto: 'Attica', filme: 11 },
+          { valor: 'd', texto: 'Summer of Soul (... ou Quando a Revolução Não Pode Ser Televisionada)', filme: 41 },
+          { valor: 'e', texto: 'Writing with Fire', filme: 53 },
         ],
       },
       {
         categoria: 'Melhor documentário em curta-metragem:',
         respostas: [
-          { valor: 'a', texto: 'Audible', imagem: 'audible' },
-          { valor: 'b', texto: 'Lead Me Home', imagem: 'lead-me-home' },
-          { valor: 'c', texto: 'The Queen of Basketball', imagem: 'the-queen-of-basketball' },
-          { valor: 'd', texto: 'Three Songs for Benazir', imagem: 'three-songs-for-benazir' },
-          { valor: 'e', texto: 'When We Were Bullies', imagem: 'when-we-were-bullies' },
+          { valor: 'a', texto: 'Audible', filme: 12 },
+          { valor: 'b', texto: 'Lead Me Home', filme: 27 },
+          { valor: 'c', texto: 'The Queen of Basketball', filme: 46 },
+          { valor: 'd', texto: 'Three Songs for Benazir', filme: 49 },
+          { valor: 'e', texto: 'When We Were Bullies', filme: 52 },
         ],
       },
       {
         categoria: 'Melhor animação em longa-metragem:',
         respostas: [
-          { valor: 'a', texto: 'Encanto', imagem: 'encanto' },
-          { valor: 'b', texto: 'Raya e o Último dragão', imagem: 'raya-e-o-ultimo-dragao' },
-          { valor: 'c', texto: 'A Família Mitchell e a Revolta das Máquinas', imagem: 'a-familia-mitchell-e-a-revolta-das-maquinas' },
-          { valor: 'd', texto: 'Flee', imagem: 'flee' },
-          { valor: 'e', texto: 'Luca', imagem: 'luca' },
+          { valor: 'a', texto: 'Encanto', filme: 21 },
+          { valor: 'b', texto: 'Raya e o Último dragão', filme: 37 },
+          { valor: 'c', texto: 'A Família Mitchell e a Revolta das Máquinas', filme: 2 },
+          { valor: 'd', texto: 'Flee', filme: 22 },
+          { valor: 'e', texto: 'Luca', filme: 29 },
         ],
       },
       {
         categoria: 'Melhor animação em curta-metragem:',
         respostas: [
-          { valor: 'a', texto: 'Robin Robin', imagem: 'robin-robin' },
-          { valor: 'b', texto: 'Bestia', imagem: 'bestia' },
-          { valor: 'c', texto: 'Affairs of the Art', imagem: 'affairs-of-the-art' },
-          { valor: 'd', texto: 'Boxballet', imagem: 'boxballet' },
-          { valor: 'e', texto: 'The Windshield Wiper', imagem: 'the-windshield-wiper' },
+          { valor: 'a', texto: 'Robin Robin', filme: 38 },
+          { valor: 'b', texto: 'Bestia', filme: 14 },
+          { valor: 'c', texto: 'Affairs of the Art', filme: 6 },
+          { valor: 'd', texto: 'Boxballet', filme: 15 },
+          { valor: 'e', texto: 'The Windshield Wiper', filme: 47 },
         ],
       },
       {
         categoria: 'Melhor curta-metragem em live-action:',
         respostas: [
-          { valor: 'a', texto: 'Ala Kachuu - Take and Run', imagem: 'take-and-run' },
-          { valor: 'b', texto: 'The Dress', imagem: 'the-dress' },
-          { valor: 'c', texto: 'The Long Goodbye', imagem: 'the-long-goodbye' },
-          { valor: 'd', texto: 'On My Mind', imagem: 'on-my-mind' },
-          { valor: 'e', texto: 'Please Hold', imagem: 'please-hold' },
+          { valor: 'a', texto: 'Take and Run', filme: 42 },
+          { valor: 'b', texto: 'The Dress', filme: 43 },
+          { valor: 'c', texto: 'The Long Goodbye', filme: 45 },
+          { valor: 'd', texto: 'On My Mind', filme: 35 },
+          { valor: 'e', texto: 'Please Hold', filme: 36 },
         ],
       },
       {
         categoria: 'Melhor som:',
         respostas: [
-          { valor: 'a', texto: 'Amor, Sublime Amor', imagem: 'amor-sublime-amor' },
-          { valor: 'b', texto: 'Ataque dos Cães', imagem: 'ataque-dos-caes' },
-          { valor: 'c', texto: 'Belfast', imagem: 'belfast' },
-          { valor: 'd', texto: '007 - Sem tempo para morrer', imagem: '007-sem-tempo-para-morrer' },
-          { valor: 'e', texto: 'Duna', imagem: 'duna' },
+          { valor: 'a', texto: 'Amor, Sublime Amor', filme: 7 },
+          { valor: 'b', texto: 'Ataque dos Cães', filme: 10 },
+          { valor: 'c', texto: 'Belfast', filme: 13 },
+          { valor: 'd', texto: '007 - Sem tempo para morrer', filme: 1 },
+          { valor: 'e', texto: 'Duna', filme: 20 },
         ],
       },
       {
         categoria: 'Melhores efeitos visuais:',
         respostas: [
-          { valor: 'a', texto: 'Homem-aranha: Sem Volta Para Casa', imagem: 'homem-aranha-sem-volta-para-casa' },
-          { valor: 'b', texto: 'Free Guy: Assumindo o Controle', imagem: 'free-guy-assumindo-o-controle' },
-          { valor: 'c', texto: 'Shang-Chi e a Lenda dos Dez Anéis', imagem: 'shang-chi-e-a-lenda-dos-dez-aneis' },
-          { valor: 'd', texto: '007 - Sem tempo para morrer', imagem: '007-sem-tempo-para-morrer' },
-          { valor: 'e', texto: 'Duna', imagem: 'duna' },
+          { valor: 'a', texto: 'Homem-aranha: Sem Volta Para Casa', filme: 25 },
+          { valor: 'b', texto: 'Free Guy: Assumindo o Controle', filme: 24 },
+          { valor: 'c', texto: 'Shang-Chi e a Lenda dos Dez Anéis', filme: 39 },
+          { valor: 'd', texto: '007 - Sem tempo para morrer', filme: 1 },
+          { valor: 'e', texto: 'Duna', filme: 20 },
         ],
       },
       {
         categoria: 'Melhor filme:',
         respostas: [
-          { valor: 'a', texto: 'Amor, Sublime Amor', imagem: 'amor-sublime-amor' },
-          { valor: 'b', texto: 'Ataque dos Cães', imagem: 'ataque-dos-caes' },
-          { valor: 'c', texto: 'Belfast', imagem: 'belfast' },
-          { valor: 'd', texto: 'Não olhe para cima', imagem: 'nao-olhe-para-cima' },
-          { valor: 'e', texto: 'Duna', imagem: 'duna' },
-          { valor: 'f', texto: 'King Richard: Criando Campeãs', imagem: 'king-richard-criando-campeas' },
-          { valor: 'g', texto: 'Licorice Pizza', imagem: 'licorice-pizza' },
-          { valor: 'h', texto: 'O Beco do Pesadelo', imagem: 'o-beco-do-pesadelo' },
-          { valor: 'i', texto: 'Drive My Car', imagem: 'drive-my-car' },
-          { valor: 'j', texto: 'No Ritmo do Coração', imagem: 'no-ritmo-do-coracao' },
+          { valor: 'a', texto: 'Amor, Sublime Amor', filme: 7 },
+          { valor: 'b', texto: 'Ataque dos Cães', filme: 10 },
+          { valor: 'c', texto: 'Belfast', filme: 13 },
+          { valor: 'd', texto: 'Não olhe para cima', filme: 32},
+          { valor: 'e', texto: 'Duna', filme: 20 },
+          { valor: 'f', texto: 'King Richard: Criando Campeãs', filme: 26 },
+          { valor: 'g', texto: 'Licorice Pizza', filme: 28 },
+          { valor: 'h', texto: 'O Beco do Pesadelo', filme: 34 },
+          { valor: 'i', texto: 'Drive My Car', filme: 19 },
+          { valor: 'j', texto: 'No Ritmo do Coração', filme: 33 },
         ],
       },
-    ]
+    ];
 
     document.addEventListener('alpine:init', () => {
       Alpine.store('escolhas', {
         listaDeEscolhas: {},
       })
-    })
+    });
 
   </script>
 </body>
-
 </html>
