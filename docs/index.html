@@ -36,20 +36,22 @@
 </head>
 
 <body class="antialiased text-preto6 bg-gray-100">
-  <div x-data="{filmes, escolhido: false, finalizado: false}" x-init="$watch('$store.escolhas', value => {
+  <div x-data="{indicados2022, filmes, escolhido: false, finalizado: false}" x-init="$watch('$store.escolhas', value => {
     escolhido = Object.entries($store.escolhas.listaDeEscolhas).length === 23;
-  })">
+  });
+  escolhido = finalizado = Object.entries($store.escolhas.listaDeEscolhas).length === 23;
+  ">
     <template x-if="!finalizado">
-      <div class="flex flex-col items-center h-screen p-8" x-data="{indicados2022}">
+      <div class="flex flex-col items-center h-screen p-8">
         <h1 class="text-5xl font-extrabold text-livros">Bolão OscArvore</h1>
         <h2 class="text-2xl">Quais suas apostas para o Oscar 2022?</h2>
 
-        <template x-for="(indicados, indice) in indicados2022" :key="indice">
+        <template x-for="(indicado, indice) in indicados2022" :key="indice">
           <section class="rounded-xl shadow bg-gray-50 m-3">
             <h3 class="text-xl font-bold m-2.5 p-1 border-b-8 border-b-livros uppercase"
-              x-text="(indice+1)+'. '+indicados.categoria"></h3>
+              x-text="`${indice+1}. ${indicado.categoria}:`"></h3>
             <div class="container-respostas pt-1 px-4 pb-4 grid grid-cols-5 gap-2">
-              <template x-for="resposta in indicados.respostas">
+              <template x-for="resposta in indicado.respostas">
                 <label class="group">
                   <input
                     :name="`categoria-${indice+1}`"
@@ -85,11 +87,16 @@
 
     <template x-if="finalizado">
       <div class="flex flex-col items-center h-screen p-8">
-        <h1 class="text-5xl font-extrabold text-livros">Minhas escolhas foram:</h1>
+        <h1 class="text-5xl font-extrabold text-livros mb-4">🍿 Minhas escolhas foram: 🎥</h1>
 
-        <template x-for="">
-          <div x-text="categoria"></div>
-        </template>
+        <ol class="list-decimal">
+          <template x-for="(indicado, indice) in indicados2022" :key="indice">
+            <li>
+              <span x-text="`${indicado.categoria}: `"></span>
+              <strong class="text-xl" x-text="`${indicado.respostas.find(resposta => resposta.valor === $store.escolhas.listaDeEscolhas[indice]).texto}`"></strong>
+            </li>
+          </template>
+        </ol>
       </div>
     </template>
   </div>
@@ -153,7 +160,7 @@
 
     const indicados2022 = [
       {
-        categoria: 'Melhor direção:',
+        categoria: 'Melhor direção',
         respostas: [
           { valor: 'a', texto: 'Kenneth Branagh', filme: 13 },
           { valor: 'b', texto: 'Ryûsuke Hamaguchi', filme: 19 },
@@ -163,7 +170,7 @@
         ],
       },
       {
-        categoria: 'Melhor ator:',
+        categoria: 'Melhor ator',
         respostas: [
           { valor: 'a', texto: 'Javier Bardem', filme: 8 },
           { valor: 'b', texto: 'Benedict Cumberbatch', filme: 10 },
@@ -173,7 +180,7 @@
         ],
       },
       {
-        categoria: 'Melhor atriz:',
+        categoria: 'Melhor atriz',
         respostas: [
           { valor: 'a', texto: 'Nicole Kidman', filme: 8 },
           { valor: 'b', texto: 'Jessica Chastain', filme: 44 },
@@ -183,17 +190,17 @@
         ],
       },
       {
-        categoria: 'Melhor ator coadjuvante:',
+        categoria: 'Melhor ator coadjuvante',
         respostas: [
           { valor: 'a', texto: 'Jesse Plemons', filme: 10 },
           { valor: 'b', texto: 'J.K. Simmons', filme: 8 },
           { valor: 'c', texto: 'Troy Kotsur', filme: 33 },
-          { valor: 'a', texto: 'Kodi Smit-McPhee', filme: 10 },
+          { valor: 'd', texto: 'Kodi Smit-McPhee', filme: 10 },
           { valor: 'e', texto: 'Ciarán Hinds', filme: 13 },
         ],
       },
       {
-        categoria: 'Melhor atriz coadjuvante:',
+        categoria: 'Melhor atriz coadjuvante',
         respostas: [
           { valor: 'a', texto: 'Ariana DeBose', filme: 7 },
           { valor: 'b', texto: 'Judi Dench', filme: 13 },
@@ -203,7 +210,7 @@
         ],
       },
       {
-        categoria: 'Melhor roteiro original:',
+        categoria: 'Melhor roteiro original',
         respostas: [
           { valor: 'a', texto: 'Kenneth Branagh', filme: 13 },
           { valor: 'b', texto: 'Adam McKay', filme: 32},
@@ -213,7 +220,7 @@
         ],
       },
       {
-        categoria: 'Melhor roteiro adaptado:',
+        categoria: 'Melhor roteiro adaptado',
         respostas: [
           { valor: 'a', texto: 'Maggie Gyllenhaal', filme: 3 },
           { valor: 'b', texto: 'Jane Campion', filme: 10 },
@@ -223,7 +230,7 @@
         ],
       },
       {
-        categoria: 'Melhor fotografia:',
+        categoria: 'Melhor fotografia',
         respostas: [
           { valor: 'a', texto: 'Dan Lautsen', filme: 34 },
           { valor: 'b', texto: 'Ari Wegner', filme: 10 },
@@ -233,7 +240,7 @@
         ],
       },
       {
-        categoria: 'Melhor trilha sonora:',
+        categoria: 'Melhor trilha sonora',
         respostas: [
           { valor: 'a', texto: 'Germaine Franco', filme: 21 },
           { valor: 'b', texto: 'Jonny Greenwood', filme: 10 },
@@ -243,7 +250,7 @@
         ],
       },
       {
-        categoria: 'Melhor canção original:',
+        categoria: 'Melhor canção original',
         respostas: [
           { valor: 'a', texto: 'Dos Oruguitas', filme: 21 },
           { valor: 'b', texto: 'Be Alive', filme: 26 },
@@ -253,7 +260,7 @@
         ],
       },
       {
-        categoria: 'Melhor edição:',
+        categoria: 'Melhor edição',
         respostas: [
           { valor: 'a', texto: 'Peter Sciberras', filme: 10 },
           { valor: 'b', texto: 'Pamela Martin', filme: 26 },
@@ -263,7 +270,7 @@
         ],
       },
       {
-        categoria: 'Melhor cabelo & maquiagem:',
+        categoria: 'Melhor cabelo & maquiagem',
         respostas: [
           { valor: 'a', texto: 'Um Príncipe em Nova York 2', filme: 51 },
           { valor: 'b', texto: 'The Eyes of Tammy Faye', filme: 44 },
@@ -273,7 +280,7 @@
         ],
       },
       {
-        categoria: 'Melhor figurino:',
+        categoria: 'Melhor figurino',
         respostas: [
           { valor: 'a', texto: 'O Beco do Pesadelo', filme: 34 },
           { valor: 'b', texto: 'Cruella', filme: 17 },
@@ -283,7 +290,7 @@
         ],
       },
       {
-        categoria: 'Melhor design de produção:',
+        categoria: 'Melhor design de produção',
         respostas: [
           { valor: 'a', texto: 'Tamara Deverell', filme: 34 },
           { valor: 'b', texto: 'Grant Major', filme: 10 },
@@ -293,17 +300,17 @@
         ],
       },
       {
-        categoria: 'Melhor filme internacional:',
+        categoria: 'Melhor filme internacional',
         respostas: [
-          { valor: 'a', texto: 'Japão', filme: 19 },
-          { valor: 'b', texto: 'Dinamarca', filme: 22 },
-          { valor: 'c', texto: 'Itália', filme: 4 },
-          { valor: 'd', texto: 'Butão', filme: 30 },
-          { valor: 'e', texto: 'Noruega', filme: 48 },
+          { valor: 'a', texto: 'Drive My Car', filme: 19 },
+          { valor: 'b', texto: 'Flee', filme: 22 },
+          { valor: 'c', texto: 'A mão de Deus', filme: 4 },
+          { valor: 'd', texto: 'A Felicidade das Pequenas Coisas', filme: 30 },
+          { valor: 'e', texto: 'The worst person in the world', filme: 48 },
         ],
       },
       {
-        categoria: 'Melhor documentário em longa-metragem:',
+        categoria: 'Melhor documentário em longa-metragem',
         respostas: [
           { valor: 'a', texto: 'Ascension', filme: 9 },
           { valor: 'b', texto: 'Flee', filme: 22 },
@@ -313,7 +320,7 @@
         ],
       },
       {
-        categoria: 'Melhor documentário em curta-metragem:',
+        categoria: 'Melhor documentário em curta-metragem',
         respostas: [
           { valor: 'a', texto: 'Audible', filme: 12 },
           { valor: 'b', texto: 'Lead Me Home', filme: 27 },
@@ -323,7 +330,7 @@
         ],
       },
       {
-        categoria: 'Melhor animação em longa-metragem:',
+        categoria: 'Melhor animação em longa-metragem',
         respostas: [
           { valor: 'a', texto: 'Encanto', filme: 21 },
           { valor: 'b', texto: 'Raya e o Último dragão', filme: 37 },
@@ -333,7 +340,7 @@
         ],
       },
       {
-        categoria: 'Melhor animação em curta-metragem:',
+        categoria: 'Melhor animação em curta-metragem',
         respostas: [
           { valor: 'a', texto: 'Robin Robin', filme: 38 },
           { valor: 'b', texto: 'Bestia', filme: 14 },
@@ -343,7 +350,7 @@
         ],
       },
       {
-        categoria: 'Melhor curta-metragem em live-action:',
+        categoria: 'Melhor curta-metragem em live-action',
         respostas: [
           { valor: 'a', texto: 'Take and Run', filme: 42 },
           { valor: 'b', texto: 'The Dress', filme: 43 },
@@ -353,7 +360,7 @@
         ],
       },
       {
-        categoria: 'Melhor som:',
+        categoria: 'Melhor som',
         respostas: [
           { valor: 'a', texto: 'Amor, Sublime Amor', filme: 7 },
           { valor: 'b', texto: 'Ataque dos Cães', filme: 10 },
@@ -363,7 +370,7 @@
         ],
       },
       {
-        categoria: 'Melhores efeitos visuais:',
+        categoria: 'Melhores efeitos visuais',
         respostas: [
           { valor: 'a', texto: 'Homem-aranha: Sem Volta Para Casa', filme: 25 },
           { valor: 'b', texto: 'Free Guy: Assumindo o Controle', filme: 24 },
@@ -373,7 +380,7 @@
         ],
       },
       {
-        categoria: 'Melhor filme:',
+        categoria: 'Melhor filme',
         respostas: [
           { valor: 'a', texto: 'Amor, Sublime Amor', filme: 7 },
           { valor: 'b', texto: 'Ataque dos Cães', filme: 10 },
