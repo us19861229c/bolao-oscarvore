@@ -12,17 +12,17 @@
 </head>
 
 <body class="antialiased text-preto6 bg-gray-100">
-  <div x-data="{indicados2022, filmes, escolhido: false, finalizado: false}" x-init="$watch('$store.escolhas', value => {
-    escolhido = Object.entries($store.escolhas.listaDeEscolhas).length === 23;
+  <div x-data="{escolhido: false, finalizado: false}" x-init="$watch('$store.escolhas.listaDeEscolhas', value => {
+    escolhido = Object.entries($store.escolhas.listaDeEscolhas).length === totalDeCategorias;
   });
-  escolhido = finalizado = Object.entries($store.escolhas.listaDeEscolhas).length === 23;
+  escolhido = finalizado = Object.entries($store.escolhas.listaDeEscolhas).length === totalDeCategorias;
   ">
     <template x-if="!finalizado">
       <div class="flex flex-col items-center py-8 px-2">
         <h1 class="text-5xl font-extrabold text-livros">Bolão OscArvore</h1>
         <h2 class="text-2xl">Quais suas apostas para o Oscar 2022?</h2>
 
-        <template x-for="(indicado, indice) in indicados2022" :key="indice">
+        <template x-for="(indicado, indice) in categoriasComIndicadosEFilmes" :key="indice">
           <section class="rounded-xl shadow bg-gray-50 my-3 w-full lg:w-auto py-4">
             <h3 class="text-xl font-bold mx-2.5 mb-2.5 border-b-8 border-b-livros uppercase"
               x-text="`${indice+1}. ${indicado.categoria}:`"></h3>
@@ -38,8 +38,8 @@
                     x-on:change="$store.escolhas.listaDeEscolhas[indice] = $el.value"
                   >
                   <img
-                    :alt="`Poster do filme ${filmes.find(filme => resposta.filme === filme.id).nome}`"
-                    :src="`./imgs/poster-filmes/${filmes.find(filme => resposta.filme === filme.id).capa}.jpg`"
+                    :alt="`Poster do filme ${resposta.filme.nome}`"
+                    :src="`./imgs/poster-filmes/${resposta.filme.capa}.jpg`"
                     class="hover:scale-[1.03] duration-200 transition ease-in-out cursor-pointer mb-2 rounded-lg hover:shadow-xl peer-checked:outline-livros peer-checked:outline-4 peer-checked:outline"
                     height="225"
                     width="150"
@@ -74,6 +74,17 @@
             </li>
           </template>
         </ol>
+
+        <div class="px-2 sm:px-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1 max-w-screen-sm">
+          <template x-for="filme in filmesNaoDuplicados($store.escolhas.listaDeEscolhas)">
+            <img
+              :alt="`Poster do filme ${filme.nome}`"
+              :src="`./imgs/poster-filmes/${filme.capa}.jpg`"
+              height="225"
+              width="150"
+            >
+          </template>
+        </div>
       </div>
     </template>
   </div>
@@ -379,6 +390,35 @@
       })
     });
 
+    const totalDeCategorias = indicados2022.length;
+
+    const encontraFilmePeloId = idDoFilme => filmes.find(filme => filme.id === idDoFilme);
+
+    const indicadosComFilmes = indicadosDaCategoria => indicadosDaCategoria.map(indicado => {
+      indicado.filme = encontraFilmePeloId(indicado.filme);
+
+      return indicado;
+    });
+
+    const categoriasComIndicadosEFilmes = indicados2022.map(categoria => {
+      categoria.respostas = indicadosComFilmes(categoria.respostas);
+
+      return categoria;
+    });
+
+    const filmeEscolhidoNaCategoria = ([idCategoria, valorRespostaEscolhida]) => {
+      const indicadosNaCategoria = categoriasComIndicadosEFilmes[idCategoria].respostas;
+      const respostaEscolhida = indicadosNaCategoria.find(indicado => indicado.valor === valorRespostaEscolhida);
+      const filmeEscolhido = respostaEscolhida.filme;
+
+      return filmeEscolhido;
+    }
+
+    const filmesEscolhidos = listaDeEscolhas => Object.entries(listaDeEscolhas).map(filmeEscolhidoNaCategoria);
+
+    const filmesNaoDuplicados = listaDeEscolhas => filmesEscolhidos(listaDeEscolhas).filter(
+      (filme, indice, escolhidos) => escolhidos.indexOf(filme) === indice
+    );
   </script>
 </body>
 </html>
